@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="ocean">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OCEAN 2026 — An Interactive Descent</title>
+<meta name="description" content="A playful interactive dive through the ocean. Move the cursor, hold to shift the light, scroll to go deeper.">
+<link rel="stylesheet" href="styles.css?v=14">
+</head>
+<body>
+
+<!-- ============ FX LAYERS ============ -->
+<canvas id="trail" aria-hidden="true"></canvas>
+<div class="grain" aria-hidden="true"></div>
+<div class="bubbles" id="bubbles" aria-hidden="true"></div>
+<div class="shift-wipe" id="shiftWipe" aria-hidden="true"></div>
+<div class="hold-ring" id="holdRing" aria-hidden="true">
+  <svg viewBox="0 0 80 80"><circle class="hold-ring__track" cx="40" cy="40" r="36"/><circle class="hold-ring__fill" cx="40" cy="40" r="36"/></svg>
+  <span>HOLD</span>
+</div>
+
+<!-- ============ HUD ============ -->
+<header class="hud">
+  <div class="hud__left">
+    <div class="readout"><span id="depthValue">00</span><span class="readout__pct">%</span></div>
+    <div class="readout__meta" data-tx="depth-meta">SCROLL DEPTH <span>/</span> 2026</div>
+    <div class="depth-rail"><span id="depthFill"></span></div>
+  </div>
+
+  <div class="hud__right">
+    <div class="theme-hint"><span class="theme-hint__dot"></span><span class="theme-hint__text" data-tx="hint">HOLD LEFT CLICK TO SHIFT THE LIGHT</span></div>
+    <button class="dive-btn" id="diveBtn" type="button" aria-label="Scroll to surface or start auto dive">
+      <span class="dive-btn__icon" id="diveIcon">↓</span>
+      <span class="dive-btn__text" id="diveText">DIVE</span>
+    </button>
+  </div>
+</header>
+
+<nav class="level-nav" aria-label="Ocean levels">
+  <a href="#level-0" data-dot="0" class="is-active" aria-label="Surface"><span></span></a>
+  <a href="#level-1" data-dot="1" aria-label="Sunlight zone"><span></span></a>
+  <a href="#level-2" data-dot="2" aria-label="Twilight zone"><span></span></a>
+  <a href="#level-3" data-dot="3" aria-label="Midnight zone"><span></span></a>
+  <a href="#level-4" data-dot="4" aria-label="The bottom"><span></span></a>
+</nav>
+
+<div class="shift-toast" id="shiftToast" role="status" aria-live="polite"><span data-tx="toast">REALITY SHIFTED <span>— BIOLUMINESCENT MODE</span></span></div>
+
+<main>
+
+  <!-- ============ 00 / HERO ============ -->
+  <section class="level level--hero" id="level-0" data-level="0">
+    <div class="hero__frame">
+      <div class="corner corner--tl"></div><div class="corner corner--tr"></div>
+      <div class="corner corner--bl"></div><div class="corner corner--br"></div>
+
+      <p class="hero__eyebrow reveal" data-tx="hero-eyebrow">AN INTERACTIVE DESCENT <span>—</span> VOL. 01</p>
+      <h1 class="hero__title reveal">
+        <span class="hero__line" data-tx="hero-word">OCEAN</span>
+        <span class="hero__line hero__line--outline" data-tx="hero-year">2026</span>
+      </h1>
+      <div class="hero__bottom reveal">
+        <p data-tx="hero-sub">A LIVING, BREATHING DIGITAL DIVE.<br>MOVE YOUR CURSOR. HOLD TO SHIFT THE LIGHT.<br>SCROLL TO GO DEEPER.</p>
+        <div class="hero__scroll"><span data-tx="hero-scroll">SCROLL TO DIVE</span><b>↓</b></div>
+      </div>
+    </div>
+    <div class="zone-mark zone-mark--hero" data-tx="zone-0">00 <span>/</span> SURFACE</div>
+  </section>
+
+  <!-- ============ 01 / SUNLIGHT ZONE ============ -->
+  <section class="level level--carp" id="level-1" data-level="1">
+    <div class="zone-tag reveal" data-tx="zone-1"><b>01</b> SUNLIGHT ZONE <span>0 — 200 M</span></div>
+
+    <div class="split">
+      <div class="copy reveal">
+        <span class="kicker" data-tx="c1-kicker">MEET THE LOCALS</span>
+        <h2 data-tx="c1-title">SMALL<br>FISH.<br><em>BIG</em><br>ENERGY.</h2>
+        <p data-tx="c1-text">Up here the water still remembers the sun. Whole schools turn on a dime — one flick of a tail, one silver flash, and the whole current changes its mind.</p>
+        <div class="micro-stat" data-tx="c1-stat"><span>01</span> CARASSIUS AURATUS <i></i> SHIMMER: 94%</div>
+      </div>
+
+      <div class="creature creature--carp reveal" aria-hidden="true">
+        <svg viewBox="0 0 620 380" role="img">
+          <defs>
+            <linearGradient id="carpBody" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#ffe6a3"/><stop offset="34%" stop-color="#d9c477"/>
+              <stop offset="68%" stop-color="#6fa69c"/><stop offset="100%" stop-color="#164f70"/>
+            </linearGradient>
+            <linearGradient id="carpFin" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#b9f3ee" stop-opacity=".85"/><stop offset="100%" stop-color="#2a86a8" stop-opacity=".25"/>
+            </linearGradient>
+            <radialGradient id="carpGlow"><stop offset="0%" stop-color="#5fd8ff" stop-opacity=".42"/><stop offset="100%" stop-color="#5fd8ff" stop-opacity="0"/></radialGradient>
+            <pattern id="carpScales" width="26" height="20" patternUnits="userSpaceOnUse">
+              <path d="M0 10 Q13 -2 26 10 Q13 22 0 10" fill="none" stroke="#eaf8e8" stroke-opacity=".22" stroke-width="1"/>
+            </pattern>
+          </defs>
+          <ellipse cx="310" cy="190" rx="280" ry="150" fill="url(#carpGlow)"/>
+          <g class="carp-tail">
+            <path d="M492 190 Q560 118 600 96 Q574 166 600 206 Q572 190 552 190 Q574 192 600 284 Q560 262 492 190Z" fill="url(#carpFin)" stroke="#a8eee8" stroke-opacity=".5" stroke-width="2"/>
+            <path d="M500 190 Q556 150 588 120 M500 190 Q556 230 588 260" fill="none" stroke="#d7fbf6" stroke-opacity=".4"/>
+          </g>
+          <path class="carp-dorsal" d="M205 126 Q286 34 384 116 Q306 92 205 126Z" fill="url(#carpFin)" stroke="#b6f1ea" stroke-opacity=".5" stroke-width="2"/>
+          <path d="M100 190 C150 108 310 82 444 134 C486 151 510 170 524 190 C510 210 486 229 444 246 C310 298 150 272 100 190Z" fill="url(#carpBody)" stroke="#ffeab8" stroke-opacity=".55" stroke-width="2"/>
+          <path d="M100 190 C150 108 310 82 444 134 C486 151 510 170 524 190 C510 210 486 229 444 246 C310 298 150 272 100 190Z" fill="url(#carpScales)"/>
+          <path d="M110 190 C190 236 340 258 470 222 C400 272 190 282 110 190Z" fill="#e8f6e6" opacity=".16"/>
+          <g class="carp-pectoral">
+            <path d="M232 214 Q286 296 348 238 Q292 254 232 214Z" fill="url(#carpFin)" stroke="#c8f7f0" stroke-opacity=".55" stroke-width="2"/>
+          </g>
+          <path d="M156 154 Q182 188 156 226" fill="none" stroke="#0b4564" stroke-opacity=".55" stroke-width="3"/>
+          <circle cx="138" cy="172" r="13" fill="#071b2c"/><circle cx="134" cy="168" r="4.5" fill="#d8ffff"/>
+          <path d="M100 190 Q78 196 68 210 Q92 208 108 202" fill="#e8d38f" opacity=".8"/>
+          <circle cx="86" cy="182" r="2.5" fill="#d8ffff" opacity=".8"/>
+        </svg>
+      </div>
+    </div>
+
+    <div class="split split--reverse">
+      <div class="copy copy--right reveal">
+        <span class="kicker" data-tx="c2-kicker">STAY IN MOTION</span>
+        <h2 data-tx="c2-title">ONE TURN.<br>ONE <em>WAVE.</em></h2>
+        <p data-tx="c2-text">They never stop. A hundred tiny decisions, one shape in the current. Look closely and the whole school becomes a single living organism.</p>
+      </div>
+      <div class="creature creature--school reveal" aria-hidden="true">
+        <svg viewBox="0 0 620 400" role="img">
+          <defs>
+            <linearGradient id="schoolBody" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#dffcf4"/><stop offset="55%" stop-color="#8bc9c6"/><stop offset="100%" stop-color="#2b6e99"/></linearGradient>
+            <radialGradient id="schoolGlow"><stop offset="0%" stop-color="#7de9ff" stop-opacity=".28"/><stop offset="100%" stop-color="#7de9ff" stop-opacity="0"/></radialGradient>
+          </defs>
+          <ellipse cx="310" cy="200" rx="290" ry="170" fill="url(#schoolGlow)"/>
+          <g class="fish fish--1"><path d="M40 0 Q80 -26 130 0 Q80 26 40 0Z" fill="url(#schoolBody)"/><g class="fish__tail"><path d="M126 0 L166 -22 Q152 0 166 22Z" fill="#9fe4dd" opacity=".8"/></g><circle cx="62" cy="-4" r="3" fill="#06233a"/></g>
+          <g class="fish fish--2"><path d="M40 0 Q80 -26 130 0 Q80 26 40 0Z" fill="url(#schoolBody)"/><g class="fish__tail"><path d="M126 0 L166 -22 Q152 0 166 22Z" fill="#9fe4dd" opacity=".8"/></g><circle cx="62" cy="-4" r="3" fill="#06233a"/></g>
+          <g class="fish fish--3"><path d="M40 0 Q80 -26 130 0 Q80 26 40 0Z" fill="url(#schoolBody)"/><g class="fish__tail"><path d="M126 0 L166 -22 Q152 0 166 22Z" fill="#9fe4dd" opacity=".8"/></g><circle cx="62" cy="-4" r="3" fill="#06233a"/></g>
+          <g class="fish fish--4"><path d="M40 0 Q80 -26 130 0 Q80 26 40 0Z" fill="url(#schoolBody)"/><g class="fish__tail"><path d="M126 0 L166 -22 Q152 0 166 22Z" fill="#9fe4dd" opacity=".8"/></g><circle cx="62" cy="-4" r="3" fill="#06233a"/></g>
+          <g class="fish fish--5"><path d="M40 0 Q80 -26 130 0 Q80 26 40 0Z" fill="url(#schoolBody)"/><g class="fish__tail"><path d="M126 0 L166 -22 Q152 0 166 22Z" fill="#9fe4dd" opacity=".8"/></g><circle cx="62" cy="-4" r="3" fill="#06233a"/></g>
+          <g class="fish fish--6"><path d="M40 0 Q80 -26 130 0 Q80 26 40 0Z" fill="url(#schoolBody)"/><g class="fish__tail"><path d="M126 0 L166 -22 Q152 0 166 22Z" fill="#9fe4dd" opacity=".8"/></g><circle cx="62" cy="-4" r="3" fill="#06233a"/></g>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 02 / TWILIGHT ZONE ============ -->
+  <section class="level level--shark" id="level-2" data-level="2">
+    <div class="zone-tag reveal" data-tx="zone-2"><b>02</b> TWILIGHT ZONE <span>200 — 1000 M</span></div>
+    <div class="split split--shark">
+      <div class="creature creature--shark reveal" aria-hidden="true">
+        <svg viewBox="0 0 800 460" role="img">
+          <defs>
+            <linearGradient id="sharkBody" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#9dc7dd"/><stop offset="42%" stop-color="#4c88ae"/><stop offset="100%" stop-color="#0a2c4e"/>
+            </linearGradient>
+            <linearGradient id="sharkFin" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#7fb4d0"/><stop offset="100%" stop-color="#123c60"/></linearGradient>
+            <radialGradient id="sharkGlow"><stop offset="0%" stop-color="#57c9ff" stop-opacity=".3"/><stop offset="100%" stop-color="#57c9ff" stop-opacity="0"/></radialGradient>
+          </defs>
+          <ellipse cx="400" cy="230" rx="370" ry="190" fill="url(#sharkGlow)"/>
+          <g class="shark-tail">
+            <path d="M690 222 Q760 122 790 84 Q754 170 786 226 Q754 214 736 224 Q756 234 790 378 Q752 320 690 238Z" fill="url(#sharkFin)" stroke="#a6dcf3" stroke-opacity=".45" stroke-width="2"/>
+          </g>
+          <path class="shark-dorsal" d="M356 148 L404 34 Q430 82 460 150Z" fill="url(#sharkFin)" stroke="#a6dcf3" stroke-opacity=".4" stroke-width="2"/>
+          <path d="M92 220 C160 156 350 132 560 162 C636 174 682 196 720 224 C682 250 636 272 560 284 C350 314 160 286 92 220Z" fill="url(#sharkBody)" stroke="#bde8fb" stroke-opacity=".4" stroke-width="2"/>
+          <path d="M112 240 C220 292 420 300 620 258 C480 312 210 316 112 240Z" fill="#d9f2ff" opacity=".2"/>
+          <g class="shark-pectoral">
+            <path d="M300 272 Q344 388 452 322 Q378 326 300 272Z" fill="url(#sharkFin)" stroke="#a6dcf3" stroke-opacity=".4" stroke-width="2"/>
+          </g>
+          <path class="shark-pectoral shark-pectoral--back" d="M470 270 Q514 344 578 296 Q524 296 470 270Z" fill="#1b4d72" opacity=".75"/>
+          <path d="M96 232 Q152 264 208 246" fill="none" stroke="#051b30" stroke-width="5" stroke-linecap="round"/>
+          <path d="M108 236 l10 10 10 -9 10 10 10 -9 10 9 10 -8 10 9" fill="none" stroke="#e8fbff" stroke-opacity=".85" stroke-width="2.5"/>
+          <circle cx="152" cy="202" r="8" fill="#03121f"/><circle cx="149" cy="199" r="2.5" fill="#d8ffff"/>
+          <path d="M210 176 Q300 154 390 162" fill="none" stroke="#d6f2ff" stroke-opacity=".22" stroke-width="3"/>
+          <g fill="#d6f2ff" opacity=".35">
+            <circle cx="250" cy="240" r="2"/><circle cx="292" cy="252" r="2"/><circle cx="336" cy="258" r="2"/><circle cx="380" cy="259" r="2"/>
+          </g>
+        </svg>
+      </div>
+      <div class="copy copy--right reveal">
+        <span class="kicker" data-tx="c3-kicker">SOMETHING BIGGER</span>
+        <h2 data-tx="c3-title">THE SILENCE<br>HAS <em>TEETH.</em></h2>
+        <p data-tx="c3-text">Light thins out. Sound travels further than sight. Out of the blue, a shape that makes the whole ocean feel suddenly, wonderfully small.</p>
+        <div class="micro-stat" data-tx="c3-stat"><span>02</span> CARCHARODON CARCHARIAS <i></i> SPEED: 56 KM/H</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 03 / MIDNIGHT ZONE ============ -->
+  <section class="level level--abyss" id="level-3" data-level="3">
+    <div class="zone-tag reveal" data-tx="zone-3"><b>03</b> MIDNIGHT ZONE <span>1000 — 4000 M</span></div>
+    <div class="abyss__intro reveal">
+      <span class="kicker" data-tx="a-kicker">NO SUNLIGHT REACHES HERE</span>
+      <h2 data-tx="a-title">DOWN WHERE THE<br>LIGHT <em>FORGETS.</em></h2>
+    </div>
+    <div class="abyss__scene">
+      <div class="creature creature--kraken reveal" aria-hidden="true">
+        <svg viewBox="0 0 720 660" role="img">
+          <defs>
+            <linearGradient id="krakenSkin" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#7d5cc4"/><stop offset="45%" stop-color="#3d3f96"/><stop offset="100%" stop-color="#101d59"/></linearGradient>
+            <linearGradient id="krakenArm" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#6d63c9"/><stop offset="100%" stop-color="#131d5c"/></linearGradient>
+            <radialGradient id="krakenGlow"><stop offset="0%" stop-color="#7b7bff" stop-opacity=".45"/><stop offset="100%" stop-color="#7b7bff" stop-opacity="0"/></radialGradient>
+            <filter id="eyeGlow"><feGaussianBlur stdDeviation="7" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+          </defs>
+          <ellipse cx="360" cy="300" rx="330" ry="300" fill="url(#krakenGlow)"/>
+
+          <g class="arm arm--1"><path d="M300 420 C234 490 138 500 92 578 Q72 618 118 626" fill="none" stroke="url(#krakenArm)" stroke-width="30" stroke-linecap="round"/><g class="suckers" fill="#e9b6f5" opacity=".7"><circle cx="262" cy="472" r="5"/><circle cx="216" cy="502" r="5"/><circle cx="170" cy="528" r="4"/><circle cx="128" cy="566" r="4"/></g></g>
+          <g class="arm arm--2"><path d="M330 430 C292 520 218 548 200 634" fill="none" stroke="url(#krakenArm)" stroke-width="28" stroke-linecap="round"/><g class="suckers" fill="#e9b6f5" opacity=".65"><circle cx="310" cy="492" r="5"/><circle cx="276" cy="548" r="5"/><circle cx="240" cy="596" r="4"/></g></g>
+          <g class="arm arm--3"><path d="M390 430 C432 520 506 548 524 634" fill="none" stroke="url(#krakenArm)" stroke-width="28" stroke-linecap="round"/><g class="suckers" fill="#e9b6f5" opacity=".65"><circle cx="410" cy="492" r="5"/><circle cx="444" cy="548" r="5"/><circle cx="480" cy="596" r="4"/></g></g>
+          <g class="arm arm--4"><path d="M420 420 C486 490 582 500 628 578 Q648 618 602 626" fill="none" stroke="url(#krakenArm)" stroke-width="30" stroke-linecap="round"/><g class="suckers" fill="#e9b6f5" opacity=".7"><circle cx="458" cy="472" r="5"/><circle cx="504" cy="502" r="5"/><circle cx="550" cy="528" r="4"/><circle cx="592" cy="566" r="4"/></g></g>
+          <g class="arm arm--5"><path d="M360 440 C356 540 352 590 360 654" fill="none" stroke="url(#krakenArm)" stroke-width="32" stroke-linecap="round"/><g class="suckers" fill="#e9b6f5" opacity=".6"><circle cx="356" cy="510" r="5"/><circle cx="356" cy="566" r="5"/><circle cx="358" cy="618" r="4"/></g></g>
+
+          <path d="M360 68 C470 68 534 158 512 262 C494 344 432 398 360 398 C288 398 226 344 208 262 C186 158 250 68 360 68Z" fill="url(#krakenSkin)" stroke="#a9a3ff" stroke-opacity=".55" stroke-width="2"/>
+          <path d="M360 92 C304 120 268 196 276 268 Q300 206 360 186 Q420 206 444 268 C452 196 416 120 360 92Z" fill="#b8a6ff" opacity=".13"/>
+          <g class="kraken-eye"><ellipse cx="296" cy="272" rx="34" ry="27" fill="#dff6ff"/><ellipse cx="298" cy="272" rx="10" ry="21" fill="#10123a"/><circle cx="292" cy="264" r="5" fill="#ffffff"/></g>
+          <g class="kraken-eye"><ellipse cx="424" cy="272" rx="34" ry="27" fill="#dff6ff"/><ellipse cx="422" cy="272" rx="10" ry="21" fill="#10123a"/><circle cx="418" cy="264" r="5" fill="#ffffff"/></g>
+          <ellipse cx="296" cy="272" rx="40" ry="33" fill="none" stroke="#9eeaff" stroke-opacity=".35" stroke-width="3" filter="url(#eyeGlow)"/>
+          <ellipse cx="424" cy="272" rx="40" ry="33" fill="none" stroke="#9eeaff" stroke-opacity=".35" stroke-width="3" filter="url(#eyeGlow)"/>
+          <path d="M336 340 Q360 358 384 340 Q360 384 336 340Z" fill="#0a0e33" stroke="#b7a8ff" stroke-opacity=".5"/>
+          <path d="M252 332 Q300 372 332 344 M468 332 Q420 372 388 344" fill="none" stroke="#c6b9ff" stroke-opacity=".28" stroke-width="3"/>
+        </svg>
+      </div>
+
+      <div class="abyss__center reveal">
+        <span class="kicker" data-tx="center-kicker">THE LAST GUARDIAN</span>
+        <h2 data-tx="center-title">THE<br>KRAKEN<br><em>WAITED.</em></h2>
+        <p data-tx="center-text">And right beside it, the reason everyone came this far down.</p>
+      </div>
+
+      <div class="creature creature--chest reveal" aria-hidden="true">
+        <svg viewBox="0 0 560 470" role="img">
+          <defs>
+            <linearGradient id="wood" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#a86a38"/><stop offset="55%" stop-color="#6b3c1f"/><stop offset="100%" stop-color="#30180e"/></linearGradient>
+            <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#fff3b0"/><stop offset="45%" stop-color="#f1bd48"/><stop offset="100%" stop-color="#9a6515"/></linearGradient>
+            <radialGradient id="chestGlow"><stop offset="0%" stop-color="#ffd571" stop-opacity=".46"/><stop offset="100%" stop-color="#ffd571" stop-opacity="0"/></radialGradient>
+            <filter id="softGlow"><feGaussianBlur stdDeviation="10"/></filter>
+          </defs>
+          <ellipse cx="280" cy="250" rx="260" ry="220" fill="url(#chestGlow)"/>
+          <ellipse cx="280" cy="404" rx="234" ry="38" fill="#c9a76a" opacity=".16" filter="url(#softGlow)"/>
+          <path d="M96 392 Q180 366 280 380 Q390 364 470 396 L470 420 L96 420Z" fill="#a98a5c" opacity=".28"/>
+          <g class="chest-lid">
+            <path d="M112 228 Q280 130 448 228 L432 168 Q280 84 128 168Z" fill="url(#wood)" stroke="#f0c263" stroke-opacity=".6" stroke-width="3"/>
+            <path d="M132 196 Q280 116 428 196" fill="none" stroke="url(#gold)" stroke-width="12" stroke-linecap="round"/>
+            <path d="M188 166 L174 200 M372 166 L386 200" stroke="url(#gold)" stroke-width="12" stroke-linecap="round"/>
+          </g>
+          <path d="M108 230 L452 230 L424 372 Q280 392 136 372Z" fill="url(#wood)" stroke="#f0c263" stroke-opacity=".5" stroke-width="3"/>
+          <path d="M152 232 L162 374 M408 232 L398 374" stroke="url(#gold)" stroke-width="16" stroke-linecap="round"/>
+          <path d="M116 296 Q280 316 444 296" fill="none" stroke="url(#gold)" stroke-width="12"/>
+          <rect x="256" y="278" width="48" height="58" rx="7" fill="url(#gold)" stroke="#fff0b4" stroke-opacity=".6"/>
+          <circle cx="280" cy="306" r="8" fill="#3b220d"/>
+          <g class="coins">
+            <ellipse cx="204" cy="224" rx="30" ry="11" fill="url(#gold)"/><ellipse cx="246" cy="212" rx="34" ry="12" fill="url(#gold)"/>
+            <ellipse cx="294" cy="216" rx="32" ry="12" fill="url(#gold)"/><ellipse cx="342" cy="226" rx="29" ry="11" fill="url(#gold)"/>
+            <ellipse cx="380" cy="238" rx="24" ry="9" fill="url(#gold)"/><ellipse cx="166" cy="238" rx="24" ry="9" fill="url(#gold)"/>
+            <circle cx="228" cy="196" r="13" fill="url(#gold)"/><circle cx="320" cy="194" r="14" fill="url(#gold)"/>
+            <path d="M280 166 l16 18 -16 18 -16 -18Z" fill="#7ff4ff" opacity=".9"/>
+            <path d="M356 180 l12 14 -12 14 -12 -14Z" fill="#ff8cc8" opacity=".9"/>
+            <path d="M196 182 l10 12 -10 12 -10 -12Z" fill="#b5ffdd" opacity=".9"/>
+          </g>
+          <g fill="#fff4c8" opacity=".75"><circle cx="150" cy="180" r="3"/><circle cx="418" cy="176" r="3"/><circle cx="270" cy="150" r="2.5"/><circle cx="352" cy="152" r="2"/></g>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 04 / THE BOTTOM ============ -->
+  <section class="level level--end" id="level-4" data-level="4">
+    <div class="end__inner reveal">
+      <span class="kicker" data-tx="end-kicker">YOU MADE IT TO THE BOTTOM</span>
+      <h2 data-tx="end-title">SEE YOU AT<br>THE <span class="outline-text">SURFACE.</span></h2>
+      <p data-tx="end-text">The ocean keeps its secrets — but it lets you visit.<br>Come back whenever you need to breathe.</p>
+      <button class="ghost-btn" id="backTop" type="button" data-tx="end-button"><span>↑</span> BACK TO THE SURFACE</button>
+    </div>
+    <footer class="footer">
+      <span data-tx="foot-1">OCEAN 2026 <i>©</i> AN INTERACTIVE DESCENT</span>
+      <span data-tx="foot-2">DESIGNED TO BE FELT, NOT JUST SEEN</span>
+      <span data-tx="foot-3">0 M <i>—</i> 4000 M</span>
+    </footer>
+  </section>
+
+</main>
+
+<script src="script.js?v=14" defer></script>
+</body>
+</html>
