@@ -10,94 +10,94 @@
 ![Dependencies](https://img.shields.io/badge/dependencies-0-brightgreen?style=for-the-badge)
 ![License](https://img.shields.io/badge/license-MIT-blue?style=for-the-badge)
 
-**Пять экранов. Один курсор. Один долгий вдох.**
+**Five screens. One cursor. One long breath.**
 
 </div>
 
 ---
 
-## ✨ О проекте
+## ✨ About
 
-**OCEAN 2026** — концептуальный лендинг-погружение, вдохновлённый работами [Адриена Кешона](https://www.adrienquechon.com). Чем глубже вы прокручиваете, тем темнее становится вода: от солнечных мелководий до чёрного дна, где вас ждёт кракен и сундук с сокровищами.
+**OCEAN 2026** is a conceptual landing page — an interactive descent inspired by the work of [Adrien Quechon](https://www.adrienquechon.com). The deeper you scroll, the darker the water gets: from sunlit shallows down to the pitch-black bottom, where a kraken and a treasure chest are waiting for you.
 
-Всё нарисовано вручную в inline-SVG и анимировано чистым CSS — ни одного внешнего ассета, ни одной библиотеки.
+Everything is hand-drawn in inline SVG and animated with pure CSS — no external assets, no libraries, no frameworks.
 
 > Hold. Scroll. Shift. Repeat.
 
 ---
 
-## 🎯 Возможности
+## 🎯 Features
 
-| | Что внутри |
+| | What's inside |
 |---|---|
-| 🖱️ **Светящийся шлейф** | Градиентная лента следует за курсором и плавно гаснет, когда вы останавливаетесь. Находится под текстом и никогда не мешает чтению. |
-| 🌊 **Глубина в цифрах** | Счётчик в левом верхнем углу показывает пройденный процент, а шкала и фон меняются вместе с ним. |
-| 🔀 **Parallel Reality** | Зажмите ЛКМ на ~0.5 сек — и мир перевернётся: все 35 текстов, акценты, цвета и даже логика счётчика меняются на «другую сторону». |
-| 💠 **Жидкая линза** | Переход — расходящийся от точки нажатия розовый блик с мягким кольцом, без тяжёлых фильтров и лагов. |
-| 🐟 **Обитатели** | Карп, косяк, акула, кракен и сундук анимированы по частям: плавники, щупальца, глаза и монеты двигаются, но сами модели остаются на месте. |
-| 🫧 **Атмосфера** | Пузыри, зерно плёнки, подсветка, плавные появления секций и адаптив под мобильные. |
-| ⚡ **Производительность** | Canvas спит в простое, layout читается только на resize, цвет фона обновляется квантованно. |
+| 🖱️ **Glowing trail** | A gradient ribbon follows the cursor and gently fades out when you stop. It sits behind the text and never gets in the way of reading. |
+| 🌊 **Depth readout** | A counter in the top-left corner shows how far you've descended; the rail and the background change along with it. |
+| 🔀 **Parallel Reality** | Hold the left mouse button for ~0.5s and the world flips: all 35 strings, accents, colors, and even the counter logic switch to the other side. |
+| 💠 **Liquid lens** | The transition is a pink bloom with a soft ring expanding from the press point — no heavy filters, no lag. |
+| 🐟 **Creatures** | The carp, the school, the shark, the kraken, and the chest are animated part by part: fins, tentacles, eyes, and coins move, while the models themselves stay in place. |
+| 🫧 **Atmosphere** | Bubbles, film grain, glow, smooth section reveals, and a fully responsive layout. |
+| ⚡ **Performance** | The canvas sleeps when idle, layout is only read on resize, and background colors update in quantized steps. |
 
 ---
 
-## 🎮 Управление
+## 🎮 Controls
 
-| Действие | Результат |
+| Action | Result |
 |---|---|
-| Двигать курсором | Светящийся шлейф за курсором |
-| Прокручивать | Погружение, затемнение воды, счётчик глубины |
-| **Зажать ЛКМ ~0.5 сек** | Переход в Parallel Reality / обратно |
-| Кнопка **DIVE** | Медленное автопогружение на дно |
-| Кнопка **SURFACE** | Вернуться наверх |
-| Кнопка **BACK TO YOUR OCEAN** | Вернуть реальность и всплыть |
-| Точки справа | Быстрый переход между уровнями |
+| Move the cursor | Glowing trail follows your pointer |
+| Scroll | Descend, darken the water, update the depth counter |
+| **Hold LMB ~0.5s** | Enter / exit Parallel Reality |
+| **DIVE** button | Slow auto-descent to the bottom |
+| **SURFACE** button | Return to the top |
+| **BACK TO YOUR OCEAN** button | Restore the original reality and surface |
+| Dots on the right | Jump between levels |
 
-**В Parallel Reality:** счётчик показывает, сколько процентов **осталось до дна**, шкала заполняется в обратную сторону, а финальная надпись становится:
+**In Parallel Reality:** the counter shows how much depth is **left to the bottom**, the rail fills in reverse, and the final headline becomes:
 
 > **NICE TO MEET YOU AT THE BOTTOM.**
 
 ---
 
-## 🧱 Структура
+## 🧱 Structure
 
 ```text
 ocean-2026/
-├── index.html    — разметка, HUD, 5 уровней, inline-SVG существа
-├── styles.css    — темы, градиенты, анимации, адаптив
-├── script.js     — шлейф, зажатие, смена реальности, глубина, автодайв
-└── README.md     — этот файл
+├── index.html    — markup, HUD, 5 levels, inline SVG creatures
+├── styles.css    — themes, gradients, animations, responsive rules
+├── script.js     — trail, hold gesture, reality shift, depth, auto-dive
+└── README.md     — this file
 ```
 
 ---
 
-## 🚀 Запуск
+## 🚀 Getting started
 
-Никакой сборки и установки не нужно. Достаточно открыть `index.html` в браузере двойным кликом.
+No build step and no installation needed. Just open `index.html` in your browser — double-clicking works.
 
-Если хочется через локальный сервер:
+If you prefer a local server:
 
     python3 -m http.server 4173
 
-Затем открыть `http://localhost:4173`.
+Then open `http://localhost:4173`.
 
-> 💡 В `index.html` у подключённых файлов стоят `?v=14` — это сброс кэша во время разработки. Для продакшена можно убрать суффикс, оставив `href="styles.css"` и `src="script.js"`.
-
----
-
-## 🛠️ Стек
-
-HTML5 · CSS3 (variables, grid, keyframes, blend modes) · Vanilla JavaScript (Canvas 2D, rAF, IntersectionObserver) · Inline SVG
-
-Нет зависимостей, нет сборщиков, нет шрифтов извне — только системные.
+> 💡 The linked files in `index.html` use `?v=14` to bust the cache during development. For production you can drop the suffix and keep just `href="styles.css"` and `src="script.js"`.
 
 ---
 
-## 📄 Лицензия
+## 🛠️ Stack
 
-MIT — делайте с этим что угодно.
+HTML5 · CSS3 (custom properties, grid, keyframes, blend modes) · Vanilla JavaScript (Canvas 2D, rAF, IntersectionObserver) · Inline SVG
+
+Zero dependencies, zero bundlers, zero external fonts — just system fonts.
+
+---
+
+## 📄 License
+
+MIT — do whatever you want with it.
 
 <div align="center">
 
-**Сделано с любовью к океану. 🌊**
+**Made with love for the ocean. 🌊**
 
 </div>
